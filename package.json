@@ -1,0 +1,23 @@
+{
+  "name": "pdf-images-converter",
+  "version": "1.0.0",
+  "description": "This is a MINI project that convert given pdf to image/images, and also create pdf from given image/images,  and gives download option for output.",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pradiptechie/PDF-Images-Converter.git"
+  },
+  "keywords": [
+    "#",
+    "PDF-Images-Converter"
+  ],
+  "author": "Pradip Singh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pradiptechie/PDF-Images-Converter/issues"
+  },
+  "homepage": "https://github.com/pradiptechie/PDF-Images-Converter#readme"
+}
