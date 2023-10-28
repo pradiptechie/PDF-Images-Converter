@@ -7,4 +7,11 @@ app.set("view engine", 'hbs');
 app.get('/', (req, res) => {
     res.render('main');
 })
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+
+app.post('/imageToPdf', (req,res)=>{
+
+})
+app.post('/pdfToImage', (req,res)=>{
+
+})
+app.listen(port, () => console.log(`App listening on port ${port}!`))
