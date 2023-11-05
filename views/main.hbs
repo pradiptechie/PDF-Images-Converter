@@ -133,9 +133,9 @@
     <div class="forms">
       <div class="form" id="imageToPdfForm">
         <h2>Image to PDF Converter</h2>
-        <form action="/imageToPdf" method="post" enctype="multipart/form-data">
+        <form enctype="multipart/form-data">
           <input type="file" name="images" id="imageInput" accept="image/*" multiple required>
-          <button type="submit">Convert to PDF</button>
+          <button type="submit">Convert & Download</button>
         </form>
       </div>
 
@@ -143,7 +143,7 @@
         <h2>PDF to Image Converter</h2>
         <form action="/pdfToImage" method="post" enctype="multipart/form-data">
           <input type="file" name="pdfFile" id="pdfInput" accept=".pdf" required>
-          <button type="submit">Convert to Image</button>
+          <button type="submit">Convert to Image/s</button>
         </form>
       </div>
     </div>
@@ -163,13 +163,52 @@
       pdfInput.value ='';
       
     });
-
     pdfToImageButton.addEventListener('click', () => {
       imageToPdfForm.classList.remove('active');
       pdfToImageForm.classList.add('active');
       imageInput.value ='';
       
     });
+
+    imageToPdfForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      //const formData = new FormData(imageToPdfForm);
+      const formData = new FormData(imageToPdfForm.querySelector('form'));
+
+
+      try {
+        const response = await fetch('/imageToPdf', {
+          method: 'POST',
+          body: formData,
+        });
+        if (response.ok) {
+            // Create a blob from the response
+            response.blob().then((blob) => {
+                // Create a URL for the blob
+                const blobUrl = window.URL.createObjectURL(blob);
+                // Create an anchor element for the URL
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = 'pdfkonaam.pdf';
+                a.style.display = 'none';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(blobUrl);
+                alert("Your PDF is Downloaded Successfully")
+                location.reload()
+            });
+        } else {
+            // Handle any errors here
+            result.innerHTML = 'Error: PDF generation failed';
+        }
+
+      } catch (error) {
+        // Handle fetch errors
+        console.error('Fetch error:', error);
+      }
+    });
+
   </script>
 </body>
 </html>
