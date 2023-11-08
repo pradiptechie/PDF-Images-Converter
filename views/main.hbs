@@ -142,21 +142,30 @@
       <div class="form" id="pdfToImageForm">
         <h2>PDF to Image Converter</h2>
         <form action="/pdfToImage" method="post" enctype="multipart/form-data">
-          <input type="file" name="pdfFile" id="pdfInput" accept=".pdf" required>
+          <input type="file" name="pdfFile" id="pdfInput" accept=".pdf" >
           <button type="submit">Convert to Image/s</button>
         </form>
       </div>
     </div>
   </div>
+  <div id="downloadLink" style="display: none;">
+      <a id="zipDownloadLink" href="#" download>Download Zip</a>
+  </div>
 
   <script>
     const imageToPdfButton = document.getElementById('imageToPdfButton');
     const pdfToImageButton = document.getElementById('pdfToImageButton');
+    
     const imageToPdfForm = document.getElementById('imageToPdfForm');
     const pdfToImageForm = document.getElementById('pdfToImageForm');
+
     const imageInput = document.getElementById('imageInput');
     const pdfInput = document.getElementById('pdfInput');
 
+    const downloadLink = document.getElementById('downloadLink');
+    const zipDownloadLink = document.getElementById('zipDownloadLink');
+
+    //button change huda purano data wipe gareko
     imageToPdfButton.addEventListener('click', () => {
       pdfToImageForm.classList.remove('active');
       imageToPdfForm.classList.add('active');
@@ -175,7 +184,6 @@
 
       //const formData = new FormData(imageToPdfForm);
       const formData = new FormData(imageToPdfForm.querySelector('form'));
-
 
       try {
         const response = await fetch('/imageToPdf', {
@@ -196,11 +204,12 @@
                 a.click();
                 window.URL.revokeObjectURL(blobUrl);
                 alert("Your PDF is Downloaded Successfully")
-                location.reload()
+                //location.reload()
+                imageInput.value ='';
             });
         } else {
             // Handle any errors here
-            result.innerHTML = 'Error: PDF generation failed';
+            console.log("Error: PDF generation failed");
         }
 
       } catch (error) {
@@ -208,6 +217,24 @@
         console.error('Fetch error:', error);
       }
     });
+
+    pdfToImageForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(pdfToImageForm.querySelector('form'));
+
+      try {
+          const response = await fetch('/pdfToImage', {
+              method: 'POST',
+              body: formData,
+          });
+
+      } catch (error) {
+        // Handle fetch errors
+        console.error('Fetch error:', error);
+      }
+    });
+      
 
   </script>
 </body>
